@@ -1,0 +1,112 @@
+============================================================
+Implemented
+ - GB/GBC emulate with sound.
+ - smooth sound with GBC. 
+ - save support (with long filename support)
+ - state save/load 
+ - frameskip. 
+ - screen adjustment. 
+ - stable. 
+
+Not yet
+ - full speed on later GBC games. 
+ - source code cleanup. 
+
+
+----------------------------------------
+** NOTE **
+ VMU blocks use 
+
+  most case: 
+   - normal save: 3 blocks 
+   - state save:  16-20 blocks
+
+  worst case: (calculated by assuming compression had no effect)
+   - normal save: 64 blocks
+   - state save:  360 blocks
+
+
+----------------------------------------
+** STATE SAVE NOTE **
+
+About quick state save: 
+ quick-state-save shares savefile with all ROMs. 
+
+ It's cleared when exit game 
+(more exactly, it's cleared when load next ROM. 
+so, remaining the quick state save data, even though you quit game, 
+if you select the same ROM again.)
+
+
+About VMU state save: 
+ VMU-state-save makes a file per ROM. 
+
+ It's saved to VMU, so you can load state after quit gnuboy/DC. 
+
+
+============================================================
+gnuboy filesystem hierarchy is
+
+--------------------
+    1st track (audio)
+     audio.raw (or your favorite caution.wav)
+
+    2nd track (data)
+     /1ST_READ.BIN
+     /pics/credits.bmp
+     /pics/menu.bmp
+     /pics/...
+     /gb/zelda.gb
+     /gb/favorite/mario.gb
+     /gb/favorite/saga2.gb
+     /gb/favorite/dqmonsters.gb
+     /gb/rpg/saga1.gb
+     /gb/rpg/saga2.gb
+     /gb/rpg/saga3.gb
+     /gb/loooooooooooong_filename
+
+--------------------
+** NOTE ** 
+  - If you use Rock Ridge format, there is no limit for filename. 
+  - Max ROM files is 1024 per one directory. 
+  - gnuboy/DC doesn't support zipped ROMs. 
+
+
+============================================================
+How to compile
+
+1. edit dcgnuboy-1.0.3-0.6/dcmake
+2. dcmake in top dir
+
+
+--------------------
+** NOTE **
+
+My develop environment
+
+ * gnuboy/DC developing 
+  - binutils-2.11.2
+  - gcc-3.0.3
+  - FreeBSD 4-stable
+
+ * buring CD
+  - NetBSD current
+  - mkisofs + cdrecord
+
+--------------------
+** CAUTION **
+
+I have no Windows PC, and I don't know HOWTO write CDs 
+using Windows specific tools (DiskJuggler, Nero, ...). 
+
+
+============================================================
+commiters
+
+* AGAWA Koji <kaoru-k@self-core.org>
+
+
+========================================
+contact: Takayama Fumihiko <tekezo@catv296.ne.jp>
+         http://nemesis.kaz.ac/~fumihit/dcgnuboy/
+(if you want mail reply, don't use hotmail.com. I can't mail for hotmail.)

@@ -1,0 +1,44 @@
+keybinds 
+
+========================================
+in main menu
+ * A: ROM menu
+ * B: VMU menu
+ * Y: credit
+
+ * START + Y + L + R: reset. 
+
+
+========================================
+in ROM menu
+ * A: move to the directory 
+ * Y: move to the parent directory
+ * X + UP/DOWN/LEFT/RIGHT: high speed cursor move
+ * analog: adjust cursor wait
+
+
+========================================
+in playing game
+ * X: GB B
+ * A: GB A
+ * Y: GB SELECT
+ * START: GB START
+ * UP/DOWN/LEFT/RIGHT: same as DC
+
+ * L + R + START: exit game
+
+ * B + R: quick save menu
+   items
+    - quick state save (clear when exit game)
+    - quick state load 
+
+ * Y + R: VMU state save menu
+   items
+    - VMU state save 
+    - VMU state load
+
+ * A + R: option menu
+   items
+    - adjust screen position
+
+

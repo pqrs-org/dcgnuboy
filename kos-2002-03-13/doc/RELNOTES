@@ -1,0 +1,76 @@
+KallistiOS ##version##
+(c)2000-2002 Dan Potter and Jordan DeLong of Cryptic Allusion
+
+
+RELEASE NOTES for 1.1.7
+-----------------------
+KOS 1.1.7 is probably one of the biggest, nastiest upgrades KOS has seen
+since the 1.0.x -> 1.1.x transition. Most things will continue working
+just fine, but specific issues are listed below. Please check through
+this if you have problems.
+
+The build process has changed slightly. The main change is that libc is
+in its own tree, and thus has its own include path. If you are using the
+KOS Makefile templates, then you should use $(KOS_LIBS) at the end of your
+link line (use this in place of -lkallisti -lgcc). You must also add
+-I$(KOS_BASE)/libc/include to your CC line if you're using your own
+custom Makefiles.
+
+A couple of things have changed in the environ file, though nothing
+drastic. Your existing environ should still work, but I recommend at
+least adding the KOS_STRIP variable, as well as adding the
+-fno-optimize-sibling-calls parameter to KOS_CFLAGS if you haven't built
+a fixed GCC 3.0.3.
+
+Libc has been split out of 'kernel' and into its own tree. This is what
+triggered the build process change. In the future this will make it very
+easy to replace libc with another libc (such as Newlib).
+
+Libm from Newlib has been integrated into the source tree so that you
+no longer have to pull in a seperate Newlib binary. This also ensures that
+it's compiled with the same compiler flags as the rest of KOS.
+
+The new "PVR" API has completely replaced the old "TA" API. For the near
+future, code based on the "TA" API will continue working, through an
+adaptation layer. The one thing which really can't be emulated properly
+with the adaptation layer is custom memory management (i.e., allocating
+your own textures starting at texture address 0). "PVR" texture pointers
+are now real SH-4 pointers, so you must allocate them through the 3D
+subsystem or you'll get garbage for textures.
+
+The streaming and basic sound effects portions of the MP3 and OGG libraries
+has been split out and placed into the kernel now, as an architecture
+independent interface. The DC implementation uses a generic AICA driver
+which has been improved upon greatly since the last version. This has three
+implications for anyone using sound stuff:
+
+1) If you used sfx_* functions, you must now use snd_sfx_*
+2) It is now possible to use basic sound effects without loading the MP3
+   or OGG libraries
+3) You no longer need to include stream.drv in a romdisk; it's built into
+   the library itself now
+
+The entire maple system has been replaced. Most things will still work
+as before, but one of the most notable changes is that you will no longer
+need to pause between polls on the maple bus. This is all handled
+automatically in the background. Enumeration is done by using the
+maple_enum_* functions (see dc/maple.h) and the way to access the
+keyboard matrix and shift states is different also (see dc/maple/keyboard.h).
+VMU saving should be considered somewhat "beta" as is the hotswap
+capability. We're still working on finding and fixing issues there,
+especially with third-party peripherals.
+
+KGL has become a lot more OpenGL(tm) compliant. This means, for example,
+that the usage of radians has been deprecated in favor of degrees, etc.
+If you program which previously worked under KGL is having some issues,
+you should probably check to see what changed there.
+
+Finally, if you do not have a working G++ compiler for your target, then
+please comment out the line in environ for KOS_CCPLUS. This will disable
+building any C++ targets. Conversely, if you have a working G++, make sure
+you have a KOS_CCPLUS line so that all of the libraries and examples will
+get built.
+
+
+KOS Version Id: RELNOTES,v 1.6 2002/03/04 06:20:24 bardtx Exp
+

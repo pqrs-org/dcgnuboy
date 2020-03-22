@@ -1,0 +1,31 @@
+# Generated automatically from Makefile.in by configure.
+
+include $(NESTER_BASE)/Makefile.prefab
+
+TARGETS = dcgnuboy.elf
+
+DC_OBJS = sys/dc/dc.o sys/dc/dc_pcm.o
+DC_OBJS += sys/dc/dc_utils.o sys/dc/dc_sound.o
+DC_OBJS += sys/dc/dc_menu.o sys/dc/dc_vmu.o sys/dc/fs_md.o
+DC_LIBS = -L$(KOS_BASE)/lib -lkallisti -L$(BZ_BASE) -lbz2 
+
+include Rules
+
+all: $(OBJS) $(SYS_OBJS) $(DC_OBJS)
+	-cp $(OBJS) $(SYS_OBJS) $(DC_OBJS) $(NESTER_OBJ)
+
+dcgnuboy.elf: $(OBJS) $(SYS_OBJS) $(DC_OBJS)
+	$(KOS_CCPLUS) $(LDFLAGS) $(OBJS) $(SYS_OBJS) $(DC_OBJS) -o $@ $(DC_LIBS)
+
+install: all
+	$(INSTALL) -d $(bindir)
+	$(INSTALL) -m 755 $(TARGETS) $(bindir)
+
+clean:
+	rm -f *gnuboy gmon.out *.o sys/*.o sys/*/*.o asm/*/*.o
+	rm -f obj-dreamcast/*.o
+
+
+
+
+
